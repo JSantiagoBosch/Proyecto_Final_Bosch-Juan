@@ -64,13 +64,13 @@ ioServer.on("connection", async socket => {
         socket.emit("realtimeproducts", products);
     })
 
-    socket.on("eliminarProducto", data => {
+    socket.on("eliminarProducto", async data => {
         
-        PM.deleteProduct(data);
+        await PM.deleteProduct(data);
 
         console.log("Se elimino un producto");
         
-        socket.emit("realtimeproducts", PM.getProducts());
+        socket.emit("realtimeproducts", await PM.getProducts());
     })
 
     socket.on("disconnect", () => {

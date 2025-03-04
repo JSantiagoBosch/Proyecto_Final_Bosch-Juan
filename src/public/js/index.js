@@ -6,7 +6,7 @@ socket.on("realtimeproducts", data => {
     
     let containerHTML = "";
 
-    data.forEach(item => {
+    data.payload.forEach(item => {
         containerHTML += `<div class="col-md-3">
             <div class="card">
                 <img src="${item.thumbnails[0]}" alt="${item.title}" class="card-img-top">
