@@ -11,7 +11,22 @@ class CartManager {
 
     async getCartById(id) {
 
-        return await cartModel.findOne({_id:id}).lean();
+        try {
+            const cart = await cartModel.findOne({ _id: id })
+                .populate('products.product')
+                .lean();
+    
+            if (!cart) {
+                throw new Error('Carrito no encontrado');
+            }
+    
+            return cart;
+        } catch (error) {
+            console.error(error);
+            throw new Error('Error al obtener el carrito');
+        }
+
+        // return await cartModel.findOne({_id:id}).lean();
     }
 
 

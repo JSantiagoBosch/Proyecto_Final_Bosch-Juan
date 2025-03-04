@@ -7,6 +7,7 @@ import productsRouter from "./routes/productsRouter.js";
 import cartsRouter from "./routes/cartsRouter.js";
 import ProductManager from "./classes/ProductManager.js";
 import mongoose from "mongoose";
+import Handlebars from "handlebars";
 
 
 const app = express();
@@ -35,6 +36,11 @@ app.use("/", viewsRouter);
 
 mongoose.connect("mongodb+srv://juansantibosch:Santi1234@cluster0.qxenf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 
+Handlebars.registerHelper('calculateTotal', function(products) {
+    return products.reduce(function(total, item) {
+        return total + (item.product.price * item.quantity);
+    }, 0);
+});
 
 ioServer.on("connection", async socket => {
     console.log("Nuevo cliente conectado");

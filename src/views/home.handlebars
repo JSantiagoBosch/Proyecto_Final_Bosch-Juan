@@ -5,30 +5,33 @@
         <div class="col-md-3">
             <div class="card">
                 <a href="/product/{{this.id}}" class="text-decoration-none text-black">
-                <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}" class="card-img-top img-fluid">
-                <div class="card-body">
-                    <h5 class="card-title">{{this.title}}</h5>
-                    <p class="card-text">Precio: ${{this.price}}</p>
-                </div>
+                    <img src="{{this.thumbnails.[0]}}" alt="{{this.title}}" class="card-img-top img-fluid">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.title}}</h5>
+                        <p class="card-text">Precio: ${{this.price}}</p>
+                    </div>
                 </a>
+            </div>
+            <div class="d-grid my-5">
+                <button class="btn btn-dark btn-lg rounded-pill text-uppercase fs-6">Agregar al Carrito</button>
             </div>
         </div>
         {{else}}
         <p>No hay productos disponibles</p>
         {{/each}}
     </div>
-     <div class="row">
+    <div class="row">
         <div class="col text-center">
             {{#if products.hasPrevPage}}
-                <a href="{{products.prevLink}}" class="text-decoration-none mx-3">⬅️</a>
+            <a href="{{products.prevLink}}" class="text-decoration-none mx-3">⬅️</a>
             {{/if}}
-        
+
             {{#if products.page}}
-                <a href="#" class="text-decoration-none mx-3">{{products.page}}</a>
+            <a href="#" class="text-decoration-none mx-3">{{products.page}}</a>
             {{/if}}
-        
+
             {{#if products.hasNextPage}}
-                <a href="{{products.nextLink}}" class="text-decoration-none mx-3">➡️</a>
+            <a href="{{products.nextLink}}" class="text-decoration-none mx-3">➡️</a>
             {{/if}}
         </div>
     </div>
