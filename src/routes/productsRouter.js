@@ -30,7 +30,19 @@ productsRouter.get("/:pid", async (req, res) => {
 productsRouter.post("/", async (req, res) => {
     try {
         const product = req.body;
-        await PM.addProduct(product);
+        const requiredFields = ['title', 'description', 'code', 'price', 'status', 'category', 'quantity'];
+
+        const missingFields = requiredFields.filter(field => !product[field]);
+
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                status: "error",
+                message: `Faltan los siguientes campos: ${missingFields.join(", ")}`
+            });
+        }
+
+        const result = await PM.addProduct(product);
+        
         res.status(201).json({ estado: "OK", mensaje: "Producto creado correctamente" });
     } catch (error) {
         console.error("Error al crear el producto", error);

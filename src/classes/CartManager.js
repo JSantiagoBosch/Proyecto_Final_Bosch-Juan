@@ -32,7 +32,8 @@ class CartManager {
 
     async createCart() {
 
-        await cartModel.create({products:[]})
+        const newCart = await cartModel.create({products:[]});
+        return newCart;
     }
 
     async addProductToCart(cid, pid) {
@@ -48,11 +49,20 @@ class CartManager {
             cart.products.push(product);
         }
 
-        await cartModel.updateOne({_id:cid}, {products:cart.products})
+        await cartModel.updateOne({_id: cid}, {products: cart.products})
+
+        return{status: 'success', message: 'Producto agregado al carrito'};
     }
 
     async addProductsToCart(cid, products) {
         let cart = await cartModel.findOne({_id:cid}).lean();
+
+        if (!cart) {
+            return {
+                status: 'error',
+                message: 'Carrito no encontrado.'
+            };
+        }
         
         products.forEach(item => {            
             let product = cart.products.find(item2 => item2.product == item.product);                    
@@ -60,12 +70,13 @@ class CartManager {
             if (product) {
                 product.quantity += item.quantity;                        
             } else {
-                product = {product:item.product, quantity:item.quantity};
-                cart.products.push(product);
+                cart.products.push({product:item.product, quantity:item.quantity});
             }            
         });
 
-        await cartModel.updateOne({_id:cid}, {products:cart.products});
+        await cartModel.updateOne({_id: cid}, {products: cart.products});
+
+        return { status: 'success', message: 'Productos agregados correctamente al carrito' };
     }
 
 
